@@ -16,7 +16,7 @@ class TestDependencies(unittest.TestCase):
 
         assert_equal(sorted(["B", "C", "E", "F", "G", "H"]), dependencies.sorted_transitive_dependencies_for('A'))
         assert_equal(sorted(["C", "E", "F", "G", "H"]), dependencies.sorted_transitive_dependencies_for('B'))
-        assert_equal(sorted(["G"]), dependencies.dependencies_for('C'))
+        assert_equal(sorted(["G"]), dependencies.sorted_transitive_dependencies_for('C'))
         assert_equal(sorted(["A", "B", "C", "E", "F", "G", "H"]), dependencies.sorted_transitive_dependencies_for('D'))
         assert_equal(sorted(["F", "H"]), dependencies.sorted_transitive_dependencies_for('E'))
         assert_equal(sorted(["H"]), dependencies.sorted_transitive_dependencies_for('F'))
