@@ -14,8 +14,6 @@ class DependenciesCalculator():
                     dependentValues.extend(dependencies)
                     dependentValues = sorted(set(dependentValues))
                     self.dependencies.update({dependency: dependentValues})
-        print ("===")
-        print (self.dependencies)
 
     def dependencies_for(self, item):
         return self.dependencies.get(item)
