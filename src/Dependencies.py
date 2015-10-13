@@ -1,12 +1,20 @@
-class Dependencies:
+class Dependencies(object):
+    directDependencies = {}
+
     def __init__(self):
-        self.dependencies_set = set();
+        pass
 
-    def add_direct(self, item, item_dependencies):
-        list = item_dependencies.split(" ")
-        for itemm in list:
-            self.dependencies_set.add(itemm);
+    @classmethod
+    def add_direct(item, top, dependencies):
+        item.directDependencies[top] = dependencies
 
-    def dependencies_for(self, item, item_dependencies):
-        for item in self.dependencies_set:
-            item.add_direct(item, item_dependencies)
+    @classmethod
+    def dependencies_for(item, top):
+        list_of_dependencies = set()
+        while top in item.directDependencies:
+            current_elements = set(item.directDependencies[top])
+            list_of_dependencies |= set(current_elements)
+            for i, val in enumerate(current_elements):
+                top = val
+                list_of_dependencies |= set(item.dependencies_for(val))
+        return sorted(list(list_of_dependencies))

@@ -1,16 +1,20 @@
 import unittest
-from Dependencies import Dependencies
+from src.Dependencies import Dependencies
 
 class Dependencies_Test(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        super(Dependencies_Test, self).__init__(*args, **kwargs)
-        self.depend = Dependencies()
 
-    def runTest(self):
-        self.depend.add_direct('A', 'B')
-        self.depend.add_direct('B', 'C')
-        self.depend.add_direct('C', 'A')
-        print self.depend.dependencies_set
-        self.assertTrue('B' in self.depend.dependencies_set)
-        self.assertTrue('C' in self.depend.dependencies_set)
-        self.assertTrue('A' in self.depend.dependencies_set)
+    def test_Basic(self):
+      dep = Dependencies()
+      dep.add_direct('A', ['B', 'C'])
+      dep.add_direct('B', ['C', 'E'])
+      dep.add_direct('C', ['G'])
+      dep.add_direct('D', ['A', 'F'])
+      dep.add_direct('E', ['F'])
+      dep.add_direct('F', ['H'])
+
+      self.assertEqual(['B', 'C', 'E', 'F', 'G', 'H'],         dep.dependencies_for('A'))
+      self.assertEqual(['C', 'E', 'F', 'G', 'H'],              dep.dependencies_for('B'))
+      self.assertEqual(['G'],                                  dep.dependencies_for('C'))
+      self.assertEqual(['A', 'B', 'C', 'E', 'F', 'G', 'H'],    dep.dependencies_for('D'))
+      self.assertEqual(['F', 'H'],                             dep.dependencies_for('E'))
+      self.assertEqual(['H'],                                  dep.dependencies_for('F'))
